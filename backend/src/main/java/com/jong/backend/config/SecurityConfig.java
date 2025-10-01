@@ -2,6 +2,7 @@ package com.jong.backend.config;
 
 import com.jong.backend.security.JwtAuthenticationEntryPoint;
 import com.jong.backend.security.JwtAuthenticationFilter;
+import com.jong.backend.security.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +27,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-//    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Value("${frontend.url}")
     private String frontendUrl;
@@ -47,9 +48,9 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
-//                .oauth2Login(oauth2 -> oauth2
-//                        .successHandler(oAuth2SuccessHandler)
-//                )
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(oAuth2SuccessHandler)
+                )
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )

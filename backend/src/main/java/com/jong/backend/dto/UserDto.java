@@ -24,6 +24,7 @@ public class UserDto {
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
+                .profileImageUrl(user.getProfileImageUrl())
                 .bio(user.getBio())
                 .build();
     }

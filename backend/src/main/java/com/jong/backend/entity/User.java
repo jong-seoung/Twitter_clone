@@ -45,6 +45,9 @@ public class User implements UserDetails {
 
     private String providerId;
 
+    @Column(name = "profile_image_url", columnDefinition = "Text")
+    private String profileImageUrl;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
