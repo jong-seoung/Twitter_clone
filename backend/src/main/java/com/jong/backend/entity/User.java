@@ -13,7 +13,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -69,4 +71,8 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {return enabled; }
 
+    // 관계 정의
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<Post> posts = new HashSet<>();
 }

@@ -23,7 +23,7 @@ const CreatePost = ({ post, onClose }) => {
 
     try {
       if (post) {
-        await updatePost(post.id, content.trim());
+        await updatePost(post.id, { content: content.trim() });
       } else {
         await createPost({
           content: content.trim(),
@@ -77,7 +77,12 @@ const CreatePost = ({ post, onClose }) => {
           <button
             type="submit"
             className="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-bold"
-            disabled={loading || !content.trim() || content.length > 280 || content === post?.content}
+            disabled={
+              loading ||
+              !content.trim() ||
+              content.length > 280 ||
+              content === post?.content
+            }
           >
             {loading ? "Tweeting..." : "Tweet"}
           </button>
