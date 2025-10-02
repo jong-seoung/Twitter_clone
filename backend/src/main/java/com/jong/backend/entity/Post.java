@@ -46,7 +46,7 @@ public class Post {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // like
+    // 관계 정의
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     @Builder.Default
     private Set<Like> likes = new HashSet<>();

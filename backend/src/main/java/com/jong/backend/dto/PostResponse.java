@@ -23,6 +23,7 @@ public class PostResponse {
 
     private boolean isLiked;
     private Long likeCount;
+    private Long commentCount;
 
     public static PostResponse fromEntity(Post post){
         return PostResponse.builder()
