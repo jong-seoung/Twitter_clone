@@ -21,6 +21,9 @@ public class PostResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    private boolean isLiked;
+    private Long likeCount;
+
     public static PostResponse fromEntity(Post post){
         return PostResponse.builder()
                 .id(post.getId())

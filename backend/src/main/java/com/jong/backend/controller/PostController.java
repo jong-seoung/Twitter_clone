@@ -2,6 +2,7 @@ package com.jong.backend.controller;
 
 import com.jong.backend.dto.PostRequest;
 import com.jong.backend.dto.PostResponse;
+import com.jong.backend.service.LikeService;
 import com.jong.backend.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 
 @Slf4j
 @RestController
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private final LikeService likeService;
 
     @PostMapping
     public ResponseEntity<PostResponse> createPost(@Valid @RequestBody PostRequest request){
@@ -47,5 +51,17 @@ public class PostController {
     public ResponseEntity<Void> deletePost(@PathVariable Long postId){
         postService.deletePost(postId);
         return ResponseEntity.noContent().build();
+    }
+
+    // Like
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<?> toggleLike(@PathVariable Long postId){
+        boolean isLiked = likeService.toggleLike(postId);
+        Long likeCount = likeService.getLikeCount(postId);
+
+        return ResponseEntity.ok().body(Map.of(
+                "isLiked", isLiked,
+                "likeCount", likeCount
+        ));
     }
 }

@@ -6,6 +6,7 @@ import com.jong.backend.entity.Post;
 import com.jong.backend.entity.User;
 import com.jong.backend.exception.ResourceNotFoundException;
 import com.jong.backend.exception.UnauthorizedException;
+import com.jong.backend.repository.LikeRepository;
 import com.jong.backend.repository.PostRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class PostService {
     private final PostRepository postRepository;
     private final AuthenticationService authenticationService;
+    private final LikeRepository likeRepository;
 
     public PostResponse createPost(PostRequest request){
         User currentUser = authenticationService.getCurrentUser();
@@ -42,7 +44,11 @@ public class PostService {
         Page<Post> posts = postRepository.findAllActive(pageable);
         return posts.map(post -> {
             PostResponse response = PostResponse.fromEntity(post);
+            Long likeCount = likeRepository.countByPostId(post.getId());
+            boolean isLiked = likeRepository.existsByUserAndPost(currentUser, post);
 
+            response.setLikeCount(likeCount);
+            response.setLiked(isLiked);
             return response;
         });
     }
